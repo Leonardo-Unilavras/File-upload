@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 import {
   FormGroup,
   FormControl,
   Validators,
   FormBuilder,
-} from '@angular/forms';
+} from "@angular/forms";
 
 @Component({
-  selector: 'app-upload-image',
-  templateUrl: './upload-image.component.html',
-  styleUrls: ['./upload-image.component.scss'],
+  selector: "app-upload-image",
+  templateUrl: "./upload-image.component.html",
+  styleUrls: ["./upload-image.component.scss"],
 })
 export class UploadImageComponent implements OnInit {
   fileForm!: FormGroup;
@@ -19,7 +19,7 @@ export class UploadImageComponent implements OnInit {
 
   constructor(public fb: FormBuilder) {
     this.fileForm = this.fb.group({
-      file: new FormControl('', [Validators.required]),
+      file: new FormControl("", [Validators.required]),
     });
 
     this.filesList = [];
@@ -31,13 +31,13 @@ export class UploadImageComponent implements OnInit {
 
   isValidInput(form: FormGroup, fieldName: string): boolean {
     return (
-      (form.get(fieldName) && !form.get(fieldName)?.hasError('required')) ??
+      (form.get(fieldName) && !form.get(fieldName)?.hasError("required")) ??
       false
     );
   }
 
   onFileChange(event: any) {
-    const multiplier = 1000;
+    const multiplier = 10000000;
     const limit = multiplier * 1024;
 
     if (event.target.files.length) {
@@ -79,12 +79,12 @@ export class UploadImageComponent implements OnInit {
   }
 
   clearInput() {
-    this.fileForm.get('file')?.patchValue('');
+    this.fileForm.reset();
   }
 
   submit() {
     // if (this.fileForm.invalid) return;
     // console.log('Enviou a imagem');
-    console.log(this.filesList.length);
+    console.log(this.filesList);
   }
 }

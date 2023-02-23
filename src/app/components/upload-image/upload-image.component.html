@@ -16,7 +16,10 @@
 
     <span>{{ filesList.length }}</span>
     <div class="grid">
-      <img *ngFor="let i of filesListKeys" [src]="urlsList[i]" />
+      <div *ngFor="let i of filesListKeys" class="image-container">
+        <mat-spinner *ngIf="!urlsList[i]" [diameter]="70"></mat-spinner>
+        <img *ngIf="urlsList[i]" [src]="urlsList[i]" />
+      </div>
     </div>
   </div>
   <button type="submit">Enviar</button>
