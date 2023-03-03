@@ -1,0 +1,38 @@
+<form (ngSubmit)="submit()" [formGroup]="fileForm" #formDir="ngForm">
+  <header>
+    <span class="title">Faça upload de seus arquivos</span>
+  </header>
+  <article>
+    <div class="upload-area">
+      <span class="material-symbols-rounded"> upload </span>
+      <span class="upload-title">
+        Arraste e solte ou escolha o arquivo para carregar
+      </span>
+      <label for="upload">
+        <input
+          type="file"
+          id="upload"
+          accept=".doc,.docx,.pdf,.jpg,.jpeg,.png"
+          (change)="onFileChange($event)"
+          formControlName="file"
+          multiple
+        />
+      </label>
+    </div>
+
+    <div class="files-uploaded">
+      <app-file
+        [file]="file"
+        *ngFor="let file of uploadedFiles"
+        (removeFile)="removeFileFromList(file.id)"
+      ></app-file>
+    </div>
+  </article>
+  <footer>
+    <span *ngIf="batchSize()">Total: {{ batchSize() | filesize }}</span>
+    <div class="options-container">
+      <button class="cancel" type="button" (click)="cancel()">Cancelar</button>
+      <button class="send" type="submit">Enviar</button>
+    </div>
+  </footer>
+</form>

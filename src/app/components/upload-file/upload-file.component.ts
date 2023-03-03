@@ -5,26 +5,22 @@ import {
   Validators,
   FormBuilder,
 } from "@angular/forms";
+import { UploadedFile } from "../../models/File.class";
 
 @Component({
-  selector: "app-upload-image",
-  templateUrl: "./upload-image.component.html",
-  styleUrls: ["./upload-image.component.scss"],
+  selector: "app-upload-file",
+  templateUrl: "./upload-file.component.html",
+  styleUrls: ["./upload-file.component.scss"],
 })
-export class UploadImageComponent implements OnInit {
+export class UploadFileComponent implements OnInit {
   fileForm!: FormGroup;
-  filesList: any[];
-  urlsList: any[];
-  filesListKeys: any[];
+  uploadedFiles: UploadedFile[];
 
   constructor(public fb: FormBuilder) {
     this.fileForm = this.fb.group({
       file: new FormControl("", [Validators.required]),
     });
-
-    this.filesList = [];
-    this.urlsList = [];
-    this.filesListKeys = [];
+    this.uploadedFiles = [];
   }
 
   ngOnInit(): void {}
@@ -44,47 +40,51 @@ export class UploadImageComponent implements OnInit {
       const files = event.target.files;
 
       for (let i = 0; i < files.length; i++) {
-        if (this.bacthSize() < limit) {
+        if (this.batchSize() < limit) {
           if (
             files[i].size < limit &&
-            files[i].size + this.bacthSize() < limit
+            files[i].size + this.batchSize() < limit
           ) {
-            this.filesList.push(files[i]);
-            this.previewImage(files[i]);
+            this.uploadedFiles.push(new UploadedFile(files[i]));
+            UploadedFile.increaseBatchSize(files[i].size);
           } else
             alert(`Arquivo ${files[i].name} maior do que o limite de 5 MB!`);
         } else break;
       }
 
-      this.filesListKeys = Array.from(this.filesList.keys());
       this.clearInput();
     }
   }
 
-  previewImage(file: any) {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (event: any) => {
-      this.urlsList.push(event.target.result);
-    };
-  }
-
-  bacthSize(): number {
-    let batchSize = 0;
-    for (let i = 0; i < this.filesList.length; i++) {
-      batchSize += this.filesList[i].size;
-    }
-
-    return batchSize;
+  batchSize(): number {
+    return UploadedFile.batchSize;
   }
 
   clearInput() {
     this.fileForm.reset();
   }
 
+  removeFileFromList(fileId: string): void {
+    this.uploadedFiles = this.uploadedFiles.filter((file) => {
+      if (file.id === fileId) {
+        UploadedFile.updateBatchSize(file.size);
+        return;
+      }
+
+      return file;
+    });
+  }
+
+  cancel(): void {
+    this.clearInput();
+    this.uploadedFiles = [];
+    UploadedFile.clearBatchSize();
+  }
+
   submit() {
     // if (this.fileForm.invalid) return;
     // console.log('Enviou a imagem');
-    console.log(this.filesList);
+    console.table(this.uploadedFiles);
+    console.log(this.uploadedFiles);
   }
 }

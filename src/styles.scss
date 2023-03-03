@@ -1,2 +1,38 @@
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@import "../src/styles/colors";
+
+:root {
+  font-size: 10px;
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  min-height: 100vh;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $background;
+  padding: 3.2rem 0;
+}
+
+::-webkit-file-upload-button {
+  background-color: transparent;
+  color: transparent;
+  border: none;
+  position: absolute;
+  width: 100% !important;
+  height: 100% !important;
+  cursor: pointer;
+}

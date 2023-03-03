@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="image-container">
+    <mat-spinner *ngIf="!file.url" [diameter]="30"></mat-spinner>
+    <img *ngIf="file.url" [src]="file.url" />
+  </div>
+
+  <div class="info-container">
+    <header>
+      <span class="filename">{{ filename }}</span>
+      <button type="button" (click)="removeFileFromList()">
+        <span class="material-symbols-rounded"> close </span>
+      </button>
+    </header>
+    <article>
+      <span class="fileExtension">{{ file.type }}</span>
+      <span class="fileSize">{{ file.size | filesize }}</span>
+    </article>
+  </div>
+</div>

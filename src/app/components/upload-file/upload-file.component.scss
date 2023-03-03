@@ -1,0 +1,171 @@
+@import "../../../styles/colors";
+@import "../../../styles/variables";
+
+form {
+  display: flex;
+  flex-direction: column;
+  background-color: $white;
+  border-radius: $rounded;
+  width: fit-content;
+  padding: 1.6rem;
+  gap: 1.6rem;
+  @include box-shadow($default-shadow);
+  max-width: 40vw;
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    span.title {
+      font-weight: 500;
+      color: $secondary;
+      font-size: 1.6rem;
+    }
+  }
+
+  article {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+
+    div.upload-area {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.8rem;
+      border: 2px solid rgba($secondary, 0.1);
+      border-style: dashed;
+      padding: 1.6rem;
+      width: 100%;
+      border-radius: $rounded;
+
+      &:hover,
+      &:focus {
+        border-color: $primary;
+        background-color: rgba($primary, 0.1);
+      }
+
+      span {
+        color: rgba($secondary, 0.8);
+        font-size: 1.4rem;
+        width: 70%;
+        text-align: center;
+      }
+
+      span.material-symbols-rounded {
+        font-size: 2.6rem;
+      }
+
+      label {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+
+        input[type="file"] {
+          color: transparent;
+          outline: none;
+        }
+      }
+    }
+
+    div.files-uploaded {
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+    }
+  }
+
+  footer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    span {
+    }
+
+    div.options-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 1.6rem;
+
+      button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        border-radius: $rounded;
+        border: solid 1px transparent;
+        padding: 0.8rem 1.6rem;
+        cursor: pointer;
+        transition: all 0.15s;
+
+        &:focus-visible {
+          outline: solid 2px $primary;
+          outline-offset: 2px;
+        }
+      }
+
+      button.send {
+        color: $white;
+        background-color: $primary;
+      }
+
+      button.cancel {
+        color: rgba($secondary, 0.8);
+        background-color: transparent;
+        border-color: rgba($secondary, 0.2);
+
+        &:hover {
+          border-color: transparent;
+          background-color: rgba($secondary, 0.1);
+        }
+      }
+    }
+  }
+
+  .btn {
+    border: none;
+    width: 6rem;
+    min-height: 3rem;
+    font-size: 1.1rem;
+    color: #f5f5f5;
+    border-radius: 1.2rem;
+    background-color: #009de0;
+    cursor: pointer;
+  }
+
+  .loading-spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form-footer {
+    padding: 1rem 1.5rem 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .form-footer .btn {
+    margin-left: 0.75rem;
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    background-color: transparent;
+    cursor: pointer;
+    border: 2px solid #e1dfe4;
+    color: #021d34;
+  }
+
+  .form-footer .btn:last-child {
+    color: #fff;
+    background-color: #009de0;
+    border-color: #009de0;
+  }
+}
