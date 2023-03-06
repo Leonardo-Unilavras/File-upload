@@ -1,5 +1,6 @@
 @import "../../../styles/colors";
 @import "../../../styles/variables";
+@import "../../../styles/mixins";
 
 form {
   display: flex;
@@ -66,6 +67,10 @@ form {
         height: 100%;
         cursor: pointer;
 
+        input[type="file"]:disabled + label {
+          background-color: $error !important;
+        }
+
         input[type="file"] {
           color: transparent;
           outline: none;
@@ -73,10 +78,25 @@ form {
       }
     }
 
+    span.limit-error {
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: $error;
+      align-self: center;
+    }
+
     div.files-uploaded {
       display: flex;
       flex-direction: column;
       gap: 1.6rem;
+      max-height: 300px;
+      overflow-y: auto;
+      @include customScrollbar(
+        8px,
+        transparent,
+        rgba($secondary, 0.2),
+        $primary
+      );
     }
   }
 
@@ -85,7 +105,15 @@ form {
     align-items: center;
     width: 100%;
 
-    span {
+    div.total-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      span {
+        font-weight: 500;
+        color: $secondary;
+      }
     }
 
     div.options-container {

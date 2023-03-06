@@ -15,12 +15,16 @@ import { UploadedFile } from "../../models/File.class";
 export class UploadFileComponent implements OnInit {
   fileForm!: FormGroup;
   uploadedFiles: UploadedFile[];
+  uploadLimit: number;
+  hasLimitReached: boolean;
 
   constructor(public fb: FormBuilder) {
     this.fileForm = this.fb.group({
       file: new FormControl("", [Validators.required]),
     });
     this.uploadedFiles = [];
+    this.uploadLimit = 1 * 1024;
+    this.hasLimitReached = false;
   }
 
   ngOnInit(): void {}
@@ -33,23 +37,30 @@ export class UploadFileComponent implements OnInit {
   }
 
   onFileChange(event: any) {
-    const multiplier = 10000000;
-    const limit = multiplier * 1024;
-
     if (event.target.files.length) {
       const files = event.target.files;
+      let totalFileSize = 0;
 
       for (let i = 0; i < files.length; i++) {
-        if (this.batchSize() < limit) {
+        totalFileSize += files[i].size;
+      }
+
+      for (let i = 0; i < files.length; i++) {
+        if (this.batchSize() + totalFileSize <= this.uploadLimit) {
+          this.hasLimitReached = false;
+
           if (
-            files[i].size < limit &&
-            files[i].size + this.batchSize() < limit
+            files[i].size < this.uploadLimit &&
+            files[i].size + this.batchSize() < this.uploadLimit
           ) {
             this.uploadedFiles.push(new UploadedFile(files[i]));
             UploadedFile.increaseBatchSize(files[i].size);
           } else
             alert(`Arquivo ${files[i].name} maior do que o limite de 5 MB!`);
-        } else break;
+        } else {
+          this.hasLimitReached = true;
+          break;
+        }
       }
 
       this.clearInput();
@@ -73,12 +84,15 @@ export class UploadFileComponent implements OnInit {
 
       return file;
     });
+
+    if (this.batchSize() === 0) this.hasLimitReached = false;
   }
 
   cancel(): void {
     this.clearInput();
     this.uploadedFiles = [];
     UploadedFile.clearBatchSize();
+    this.hasLimitReached = false;
   }
 
   submit() {

@@ -12,8 +12,3 @@ $error: #f44336;
 
 // Shadows
 $default-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
-
-// Mixins
-@mixin box-shadow($shadow) {
-  box-shadow: $shadow !important;
-}

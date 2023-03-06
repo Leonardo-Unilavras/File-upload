@@ -19,6 +19,9 @@
         />
       </label>
     </div>
+    <span class="limit-error" *ngIf="hasLimitReached">
+      Limite de upload atingido (10GB)
+    </span>
 
     <div class="files-uploaded">
       <app-file
@@ -29,7 +32,13 @@
     </div>
   </article>
   <footer>
-    <span *ngIf="batchSize()">Total: {{ batchSize() | filesize }}</span>
+    <div class="total-container">
+      <span
+        >{{ uploadedFiles.length }}
+        {{ uploadedFiles.length === 1 ? "item" : "items" }}</span
+      >
+      <span *ngIf="batchSize()">Total: {{ batchSize() | filesize }}</span>
+    </div>
     <div class="options-container">
       <button class="cancel" type="button" (click)="cancel()">Cancelar</button>
       <button class="send" type="submit">Enviar</button>
