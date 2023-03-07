@@ -12,15 +12,15 @@
         <input
           type="file"
           id="upload"
-          accept=".doc,.docx,.pdf,.jpg,.jpeg,.png"
+          accept=".doc,.docx,.pdf,.jpg,.jpeg,.png, .txt"
           (change)="onFileChange($event)"
-          formControlName="file"
+          formControlName="inputFile"
           multiple
         />
       </label>
     </div>
     <span class="limit-error" *ngIf="hasLimitReached">
-      Limite de upload atingido (10GB)
+      Limite de upload ({{ uploadLimit | filesize }})
     </span>
 
     <div class="files-uploaded">

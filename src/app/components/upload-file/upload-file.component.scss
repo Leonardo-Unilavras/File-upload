@@ -78,7 +78,8 @@ form {
       }
     }
 
-    span.limit-error {
+    span.limit-error,
+    span.type-error {
       font-size: 1.4rem;
       font-weight: 500;
       color: $error;
@@ -91,6 +92,7 @@ form {
       gap: 1.6rem;
       max-height: 300px;
       overflow-y: auto;
+      overflow-x: hidden;
       @include customScrollbar(
         8px,
         transparent,
