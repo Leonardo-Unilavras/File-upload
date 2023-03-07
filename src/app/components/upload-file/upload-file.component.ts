@@ -20,10 +20,10 @@ export class UploadFileComponent implements OnInit {
 
   constructor(public fb: FormBuilder) {
     this.fileForm = this.fb.group({
-      file: new FormControl("", [Validators.required]),
+      inputFile: new FormControl("", [Validators.required]),
     });
     this.uploadedFiles = [];
-    this.uploadLimit = 1 * 1024;
+    this.uploadLimit = 1000000000;
     this.hasLimitReached = false;
   }
 
@@ -39,27 +39,15 @@ export class UploadFileComponent implements OnInit {
   onFileChange(event: any) {
     if (event.target.files.length) {
       const files = event.target.files;
-      let totalFileSize = 0;
 
       for (let i = 0; i < files.length; i++) {
-        totalFileSize += files[i].size;
-      }
-
-      for (let i = 0; i < files.length; i++) {
-        if (this.batchSize() + totalFileSize <= this.uploadLimit) {
-          this.hasLimitReached = false;
-
-          if (
-            files[i].size < this.uploadLimit &&
-            files[i].size + this.batchSize() < this.uploadLimit
-          ) {
+        if (files[i].type && this.isFileTypeValid(files[i].type)) {
+          if (this.batchSize() + files[i].size <= this.uploadLimit) {
             this.uploadedFiles.push(new UploadedFile(files[i]));
             UploadedFile.increaseBatchSize(files[i].size);
-          } else
-            alert(`Arquivo ${files[i].name} maior do que o limite de 5 MB!`);
-        } else {
-          this.hasLimitReached = true;
-          break;
+          } else {
+            this.hasLimitReached = true;
+          }
         }
       }
 
@@ -86,6 +74,24 @@ export class UploadFileComponent implements OnInit {
     });
 
     if (this.batchSize() === 0) this.hasLimitReached = false;
+  }
+
+  isFileTypeValid(fileType: string): boolean {
+    if (fileType) {
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "application/pdf",
+        "text/plain",
+      ];
+      if (allowedTypes.includes(fileType)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   cancel(): void {
