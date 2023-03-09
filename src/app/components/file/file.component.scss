@@ -23,7 +23,11 @@
       width: 100%;
       height: 100%;
       border-radius: $rounded;
-      border: solid 1px rgba($secondary, 0.2);
+      border: solid 1px transparent;
+
+      &[id="image"] {
+        border-color: rgba($secondary, 0.2);
+      }
     }
   }
 

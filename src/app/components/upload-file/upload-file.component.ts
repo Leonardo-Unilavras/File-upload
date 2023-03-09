@@ -86,6 +86,7 @@ export class UploadFileComponent implements OnInit {
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "application/pdf",
         "text/plain",
+        "image/svg+xml",
       ];
       if (allowedTypes.includes(fileType)) {
         return true;

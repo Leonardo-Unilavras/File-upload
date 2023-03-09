@@ -5,7 +5,7 @@ export class UploadedFile {
   private _name: string;
   private _size: number;
   private _type: string;
-  private _url?: string;
+  private _url: string | undefined;
   private _file: File;
 
   static batchSize: number = 0;
@@ -16,14 +16,15 @@ export class UploadedFile {
     this._name = this._file.name;
     this._size = this._file.size;
     this._type = this._file.type;
-
     this._type = this._type.split("/").slice(-1)[0];
 
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (event: any) => {
-      this._url = event.target.result;
-    };
+    if (this.isImage()) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event: any) => {
+        this._url = event.target.result;
+      };
+    }
   }
 
   get id() {
@@ -48,6 +49,16 @@ export class UploadedFile {
 
   get url() {
     return this._url;
+  }
+
+  isImage(): boolean {
+    const imageTypes = ["jpg", "jpeg", "png", "svg+xml", "webp"];
+    return imageTypes.includes(this.type);
+  }
+
+  isDocument(): boolean {
+    const docTypes = ["doc", "docx", "pdf", "plain"];
+    return docTypes.includes(this.type);
   }
 
   static increaseBatchSize(size: number): void {
