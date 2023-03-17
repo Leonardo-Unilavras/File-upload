@@ -57,7 +57,7 @@ export class UploadedFile {
   }
 
   isDocument(): boolean {
-    const docTypes = ["doc", "docx", "pdf", "plain"];
+    const docTypes = ["pdf"];
     return docTypes.includes(this.type);
   }
 

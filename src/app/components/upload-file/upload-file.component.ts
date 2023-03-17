@@ -81,11 +81,8 @@ export class UploadFileComponent implements OnInit {
       const allowedTypes = [
         "image/jpeg",
         "image/png",
-        "image/gif",
-        "application/msword",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "image/webp",
         "application/pdf",
-        "text/plain",
         "image/svg+xml",
       ];
       if (allowedTypes.includes(fileType)) {
