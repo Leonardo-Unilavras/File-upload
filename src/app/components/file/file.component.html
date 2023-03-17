@@ -1,7 +1,7 @@
 <div class="container">
   <div class="image-container">
     <mat-spinner *ngIf="!file.url" [diameter]="30"></mat-spinner>
-    <img *ngIf="file.isImage()" [src]="file.url" id="image" />
+    <img *ngIf="file.isImage() && file.url" [src]="file.url" id="image" />
     <img *ngIf="file.isDocument()" [src]="searchDocType(file.type)" />
   </div>
 
